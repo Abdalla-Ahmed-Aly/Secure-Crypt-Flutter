@@ -9,16 +9,6 @@ class PageViewDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return
-    // appBar: AppBar(
-    //   backgroundColor: Colors.transparent,
-    //   elevation: 0,
-    //   actions: [
-    //     TextButton(
-    //       onPressed: () {},
-    //       child: Text('Skip', style: TextStyle(color: Color(0xff9B745B))),
-    //     ),
-    //   ],
-    // ),
     Padding(
       padding: EdgeInsets.only(top: 100),
       child: Column(
