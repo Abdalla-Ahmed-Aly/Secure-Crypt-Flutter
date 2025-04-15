@@ -15,12 +15,14 @@ class CustomRsaField extends StatelessWidget {
       width: width,
       height: _height! * height,
       child: TextFormField(
+              onTapOutside: (_)=>FocusManager.instance.primaryFocus?.unfocus(),
+
         maxLines: _maxLines,
         cursorColor: ColorApp.primaryDarkColor,
         decoration: InputDecoration(
           hintText: _hintText,
           hintStyle: TextStyle(color: Colors.grey),
-          suffixIcon: Visibility(child: Container(padding: EdgeInsets.all(5),child: Image.asset("assets/images/copy.png"),),visible: showIcon,),
+          suffixIcon: Visibility(child: Container(padding: EdgeInsets.all(5),child: Icon(Icons.copy_rounded),),visible: showIcon,),
           filled: true,
           fillColor: ColorApp.colorBg,
           enabledBorder: OutlineInputBorder(
