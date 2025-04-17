@@ -41,10 +41,10 @@ class CustomInputRsaContainer extends StatelessWidget {
           Text(inputTypeText,style: TextStyle(fontWeight: FontWeight.w400,fontSize: 20,color: Colors.black),),
 
           SizedBox(height: height * 0.005,),
-          CustomRsaField(5,0.2,"Enter text to Hash",false),
+          CustomRsaField(5,0.2,"Enter text to Hash",false,null),
 
           Text(outputTypeText,style: TextStyle(fontWeight: FontWeight.w400,fontSize: 20,color: Colors.black)),
-          CustomRsaField(5,0.2,"Encrypt will appear here",false),
+          CustomRsaField(5,0.2,"Encrypt will appear here",false,null),
 
           SizedBox(height: height * 0.02,),
           Center(

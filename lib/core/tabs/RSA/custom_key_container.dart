@@ -25,12 +25,12 @@ class CustomKeyContainer extends StatelessWidget {
           SizedBox(height: height * 0.01,),
           Text("Public Key",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 16,color: Colors.black),),
           SizedBox(height: height * 0.006,),
-          CustomRsaField(1, 0.06, "Public Key value", true),
+          CustomRsaField(1, 0.06, "Public Key value", true,null),
 
           SizedBox(height: height * 0.02,),
           Text("Private Key",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 16,color: Colors.black),),
           SizedBox(height: height * 0.006,),
-          CustomRsaField(1, 0.06, "Private Key value", true),
+          CustomRsaField(1, 0.06, "Private Key value", true,null),
 
           SizedBox(height: height * 0.02,),
           Center(

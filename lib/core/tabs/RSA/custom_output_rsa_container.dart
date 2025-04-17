@@ -41,15 +41,15 @@ class CustomOutputRsaContainer extends StatelessWidget {
           Text(inputTypeText,style: TextStyle(fontWeight: FontWeight.w400,fontSize: 20,color: Colors.black),),
 
           SizedBox(height: height * 0.005,),
-          CustomRsaField(5,0.2,"Enter Encrypted Text to Decrypt",false),
+          CustomRsaField(5,0.2,"Enter Encrypted Text to Decrypt",false,null),
 
           SizedBox(height: height * 0.005,),
           Text("Private Key",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 20,color: Colors.black),),
-          CustomRsaField(1,0.06,"Private Key value",false),
+          CustomRsaField(1,0.06,"Private Key value",false,null),
 
           SizedBox(height: height * 0.02,),
           Text("Decrypted Key",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 20,color: Colors.black)),
-          CustomRsaField(4,0.16,"Decrypted Output",false),
+          CustomRsaField(4,0.16,"Decrypted Output",false,null),
 
           SizedBox(height: height * 0.02,),
           Center(

@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:secure_crypt/core/page_view/page_view.dart';
 import 'package:secure_crypt/features/Home/home_screen.dart';
 import 'package:secure_crypt/core/splash.dart';
-import 'package:secure_crypt/features/Home/tabs/Home/home_tab.dart';
-import 'package:secure_crypt/features/Home/tabs/SHA-1/sha1_tab.dart';
 import 'package:secure_crypt/utils/color_app.dart';
 
 void main() {

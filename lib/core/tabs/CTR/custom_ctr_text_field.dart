@@ -6,7 +6,8 @@ class CustomCtrField extends StatelessWidget {
   bool showIcon;
   double? _height;
   String? _hintText;
-  CustomCtrField(this._maxLines,this._height,this._hintText,this.showIcon);
+  TextEditingController? controller;
+  CustomCtrField(this._maxLines, this._height, this._hintText, this.showIcon,this.controller);
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -15,21 +16,34 @@ class CustomCtrField extends StatelessWidget {
       width: width,
       height: _height! * height,
       child: TextFormField(
+        controller: controller,
         maxLines: _maxLines,
         cursorColor: ColorApp.primaryDarkColor,
         decoration: InputDecoration(
           hintText: _hintText,
           hintStyle: TextStyle(color: Colors.grey),
-          suffixIcon: Visibility(child: Container(padding: EdgeInsets.all(5),child: Image.asset("assets/images/copy.png"),),visible: showIcon,),
+          suffixIcon: Visibility(
+            child: Container(
+              padding: EdgeInsets.all(5),
+              child: Image.asset("assets/images/copy.png"),
+            ),
+            visible: showIcon,
+          ),
           filled: true,
           fillColor: ColorApp.colorBg,
           enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide(color: ColorApp.primaryDarkColor,width: 1.5),
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(
+              color: ColorApp.primaryDarkColor,
+              width: 1.5,
             ),
+          ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: ColorApp.primaryDarkColor,width: 1.5),
+            borderSide: BorderSide(
+              color: ColorApp.primaryDarkColor,
+              width: 1.5,
+            ),
           ),
         ),
       ),
