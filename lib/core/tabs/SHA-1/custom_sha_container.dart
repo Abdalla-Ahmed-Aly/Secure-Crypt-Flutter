@@ -27,7 +27,7 @@ class CustomAlgoContainer extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         color: ColorApp.primaryColor,
-        borderRadius: BorderRadius.circular(12)
+        borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -47,6 +47,8 @@ class CustomAlgoContainer extends StatelessWidget {
                   // todo: here What you will generate
                 },
                 style: ElevatedButton.styleFrom(
+                  elevation: 5,
+                  shadowColor: Colors.redAccent.shade200,
                   backgroundColor: ColorApp.primarySemiDarkColor,
                   padding: EdgeInsets.symmetric(vertical: 5,horizontal: 40),
                   shape: RoundedRectangleBorder(

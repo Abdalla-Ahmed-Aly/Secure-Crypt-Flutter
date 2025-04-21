@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:secure_crypt/core/Provides/navigate_tabs_provider.dart';
 import 'package:secure_crypt/features/Home/tabs/CTR/ctr_tab.dart';
 import 'package:secure_crypt/features/Home/tabs/Home/home_tab.dart';
 import 'package:secure_crypt/features/Home/tabs/RSA/rsa_tab.dart';
@@ -12,7 +14,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int selectedIndex = 0;
+  var navigateTabProvider ;
   List<Widget> pageTab = [
     HomeTab(),
     Sha1Tab(),
@@ -23,7 +25,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width; ///    412
-    final height = MediaQuery.of(context).size.height; ///  917
+    final height = MediaQuery.of(context).size.height; ///  917\
+    navigateTabProvider = Provider.of<NavigateTabsProvider>(context);
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.only(
@@ -32,40 +35,32 @@ class _HomeScreenState extends State<HomeScreen> {
           top: height * 0.02,
           bottom: height * 0.01,
         ),
-        child: pageTab[selectedIndex]
+        child: pageTab[navigateTabProvider.currentIndex],
       ),
     
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20),
-            topRight: Radius.circular(20)
-          )
-        ),
-        child: BottomNavigationBar(
-          currentIndex: selectedIndex,
-          onTap: (index){
-            selectedIndex = index;
-            setState(() {});
-          },
-          type: BottomNavigationBarType.fixed,
-          backgroundColor: ColorApp.primaryColor,
-          showUnselectedLabels: false,
-          showSelectedLabels: false,
-          items: [
-            customItemNavigateBar("Home", 0),
-            customItemNavigateBar("SHA-1", 1),
-            customItemNavigateBar("RSA", 2),
-            customItemNavigateBar("CTR", 3),
-          ]
-        ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: navigateTabProvider.currentIndex,
+        onTap: (index){
+          navigateTabProvider.currentIndex = index;
+          setState(() {});
+        },
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: ColorApp.primaryColor,
+        showUnselectedLabels: false,
+        showSelectedLabels: false,
+        items: [
+          customItemNavigateBar("Home", 0),
+          customItemNavigateBar("SHA-1", 1),
+          customItemNavigateBar("RSA", 2),
+          customItemNavigateBar("CTR", 3),
+        ]
       ),
     );
   }
 
   BottomNavigationBarItem customItemNavigateBar(String text, int index){
     return BottomNavigationBarItem(
-      icon: selectedIndex == index
+      icon: navigateTabProvider.currentIndex == index
           ? Column(
             children: [
               Text(text,

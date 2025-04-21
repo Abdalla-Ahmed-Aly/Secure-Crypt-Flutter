@@ -1,13 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:secure_crypt/core/Provides/navigate_tabs_provider.dart';
 import 'package:secure_crypt/core/tabs/Home/custom_container.dart';
+import 'package:secure_crypt/features/Home/home_screen.dart';
 
-class HomeTab extends StatelessWidget {
+class HomeTab extends StatefulWidget {
   static const String HomeRouteTab = "/hometab";
 
+  @override
+  State<HomeTab> createState() => _HomeTabState();
+}
+
+class _HomeTabState extends State<HomeTab> {
+  var navigateTabProvider;
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width; ///    412
     final height = MediaQuery.of(context).size.height; ///  917
+    navigateTabProvider = Provider.of<NavigateTabsProvider>(context);
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -18,8 +28,8 @@ class HomeTab extends StatelessWidget {
       ),
     );
   }
-  static int callFunction(int index){
 
-    return index;
+  callFunction(int index){
+    navigateTabProvider.changeIndex(index);
   }
 }

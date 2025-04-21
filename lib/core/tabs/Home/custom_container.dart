@@ -16,6 +16,7 @@ class CustomContainer extends StatelessWidget {
     return Container(
       width: width ,
       height: height * 0.32,
+      margin: EdgeInsets.all(height * 0.008),
       padding: EdgeInsets.only(
           left: width * 0.05,
           right: width * 0.05,
@@ -24,6 +25,14 @@ class CustomContainer extends StatelessWidget {
       decoration: BoxDecoration(
         color: ColorApp.primaryColor,
         borderRadius: BorderRadius.circular(15),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black26,
+            spreadRadius: 2,
+            blurRadius: 6,
+            offset: Offset(0, 3), // horizontal & vertical shadow position
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
