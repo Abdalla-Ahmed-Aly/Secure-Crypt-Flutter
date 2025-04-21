@@ -13,7 +13,8 @@ class CustomRsaField extends StatelessWidget {
     this._height,
     this._hintText,
     this.showIcon,
-    this.controller,);
+    this.controller,
+  );
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -33,9 +34,12 @@ class CustomRsaField extends StatelessWidget {
           suffixIcon: Visibility(
             child: Container(
               padding: EdgeInsets.all(5),
-              child: IconButton(icon: Icon(Icons.copy_rounded),onPressed: () {
-                 Clipboard.setData(ClipboardData(text: controller!.text));
-              },),
+              child: IconButton(
+                icon: Icon(Icons.copy_rounded),
+                onPressed: () {
+                  Clipboard.setData(ClipboardData(text: controller!.text));
+                },
+              ),
             ),
             visible: showIcon,
           ),

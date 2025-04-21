@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:secure_crypt/core/tabs/CTR/custom_input_ctr_container.dart';
 import 'package:secure_crypt/core/tabs/CTR/custom_output_ctr_container.dart';
+import 'package:secure_crypt/features/Home/tabs/CTR/ctr_algorithm.dart';
 import 'package:secure_crypt/utils/color_app.dart';
 
 class CtrTab extends StatefulWidget {
@@ -23,6 +24,8 @@ class _CtrTabState extends State<CtrTab> {
 
   @override
   Widget build(BuildContext context) {
+    CtrAlgorithim();
+    // CtrDecryption();
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
