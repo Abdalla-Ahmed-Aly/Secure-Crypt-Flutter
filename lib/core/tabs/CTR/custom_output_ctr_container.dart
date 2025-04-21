@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:secure_crypt/core/tabs/RSA/custom_rsa_test_field.dart';
 import 'package:secure_crypt/utils/color_app.dart';
@@ -8,9 +10,15 @@ class CustomOutputCtrContainer extends StatelessWidget {
   late String inputTypeText;
   late String outputTypeText;
   late String buttonText;
+  final Function()? Encrypt;
   TextEditingController? ciphertext;
   TextEditingController? secretKey;
+  TextEditingController? decryptedText;
   CustomOutputCtrContainer({
+    required this.ciphertext,
+    required this.decryptedText,
+    required this.secretKey,
+    required this.Encrypt,
     required this.headerText,
     required this.hintText,
     required this.buttonText,
@@ -91,14 +99,12 @@ class CustomOutputCtrContainer extends StatelessWidget {
               color: Colors.black,
             ),
           ),
-          CustomRsaField(4, 0.16, "Decrypted Output", false, null),
+          CustomRsaField(4, 0.16, "Decrypted Output", false, decryptedText),
 
           SizedBox(height: height * 0.02),
           Center(
             child: ElevatedButton(
-              onPressed: () {
-                // todo: here What you will generate
-              },
+              onPressed: Encrypt,
               style: ElevatedButton.styleFrom(
                 backgroundColor: ColorApp.primarySemiDarkColor,
                 padding: EdgeInsets.symmetric(vertical: 5, horizontal: 109),

@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:encrypt/encrypt.dart' as encrypt;
 
-void CtrAlgorithim() {
-  final text = 'Hello world 2025'.replaceAll(' ', '');
+Map<String, String> CtrAlgorithim(String PlainText) {
+  final text = PlainText.replaceAll(' ', '');
 
   // توليد مفتاح عشوائي مكون من 16 حرف
   final keyString = generateKeyWithLCG(length: 16);
@@ -27,38 +27,24 @@ void CtrAlgorithim() {
     int blockIndex = i ~/ blockSize;
     counter[counter.length - 1] ^= blockIndex;
 
-    final aesEcb = encrypt.Encrypter(encrypt.AES(key, mode: encrypt.AESMode.ecb));
-    final counterEncrypted = aesEcb.encryptBytes(counter, iv: encrypt.IV.fromLength(0)).bytes;
+    final aesEcb = encrypt.Encrypter(
+      encrypt.AES(key, mode: encrypt.AESMode.ecb),
+    );
+    final counterEncrypted =
+        aesEcb.encryptBytes(counter, iv: encrypt.IV.fromLength(0)).bytes;
 
-    List<int> xorResult = List.generate(block.length, (j) => block[j] ^ counterEncrypted[j]);
+    List<int> xorResult = List.generate(
+      block.length,
+      (j) => block[j] ^ counterEncrypted[j],
+    );
     encryptedResult.addAll(xorResult);
   }
 
   final encryptedBase64 = base64.encode(encryptedResult);
   print('Encrypted Message: $encryptedBase64');
 
-  // ============================
-  //     فك التشفير اليدوي
-  // ============================
-
-  final encryptedBytes = base64.decode(encryptedBase64);
-  List<int> decryptedResult = [];
-
-  for (int i = 0; i < encryptedBytes.length; i += blockSize) {
-    List<int> block = encryptedBytes.sublist(i, min(i + blockSize, encryptedBytes.length));
-
-    List<int> counter = List.from(ivBytes);
-    int blockIndex = i ~/ blockSize;
-    counter[counter.length - 1] ^= blockIndex;
-
-    final aesEcb = encrypt.Encrypter(encrypt.AES(key, mode: encrypt.AESMode.ecb));
-    final counterEncrypted = aesEcb.encryptBytes(counter, iv: encrypt.IV.fromLength(0)).bytes;
-
-    List<int> xorResult = List.generate(block.length, (j) => block[j] ^ counterEncrypted[j]);
-    decryptedResult.addAll(xorResult);
-  }
-
-  print('Decrypted Message: ${utf8.decode(decryptedResult)}');
+ 
+  return {'key': keyString, 'encrypted': base64.encode(encryptedResult)};
 }
 
 String generateKeyWithLCG({int length = 16}) {
@@ -75,4 +61,34 @@ String generateKeyWithLCG({int length = 16}) {
   }
 
   return String.fromCharCodes(values);
+}
+String decryptCtr(String base64Cipher, String keyString, String ivString) {
+  final key = encrypt.Key.fromUtf8(keyString);
+  final ivBytes = utf8.encode(ivString);
+
+  final encryptedBytes = base64.decode(base64Cipher);
+  final blockSize = 16;
+  List<int> decryptedResult = [];
+
+  for (int i = 0; i < encryptedBytes.length; i += blockSize) {
+    List<int> block = encryptedBytes.sublist(i, i + min(blockSize, encryptedBytes.length - i));
+
+    List<int> counter = List.from(ivBytes);
+    int blockIndex = i ~/ blockSize;
+    counter[counter.length - 1] ^= blockIndex;
+
+    final aesEcb = encrypt.Encrypter(
+      encrypt.AES(key, mode: encrypt.AESMode.ecb),
+    );
+    final counterEncrypted =
+        aesEcb.encryptBytes(counter, iv: encrypt.IV.fromLength(0)).bytes;
+
+    List<int> xorResult = List.generate(
+      block.length,
+      (j) => block[j] ^ counterEncrypted[j],
+    );
+    decryptedResult.addAll(xorResult);
+  }
+
+  return utf8.decode(decryptedResult);
 }
