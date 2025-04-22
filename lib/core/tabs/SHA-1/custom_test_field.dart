@@ -3,13 +3,25 @@ import 'package:flutter/services.dart';
 import 'package:secure_crypt/utils/color_app.dart';
 
 class CustomTestField extends StatelessWidget {
-  final TextEditingController controller = TextEditingController();
   int? _maxLines;
-  bool showIcon;
+  bool? showIcon;
   double? _height;
   String? _hintText;
+  bool? enabled;
+  TextEditingController? controller;
 
   CustomTestField(this._maxLines,this._height,this._hintText,this.showIcon);
+
+  CustomTestField.req({
+    required int maxLines,
+    required bool showIcon,
+    required double height,
+    required String hintText,
+    this.controller
+});
+
+  CustomTestField.controller(this.controller,this._maxLines,this._height,this._hintText,this.showIcon,this.enabled);
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -20,6 +32,7 @@ class CustomTestField extends StatelessWidget {
       child: TextFormField(
         controller: controller,
         maxLines: _maxLines,
+        enabled: enabled ?? true,
         cursorColor: ColorApp.primaryDarkColor,
         decoration: InputDecoration(
           hintText: _hintText,
@@ -28,7 +41,7 @@ class CustomTestField extends StatelessWidget {
             child: IconButton(
                 icon: Icon(Icons.copy_rounded,color: ColorApp.primaryDarkColor,),
                 onPressed: () {
-                  Clipboard.setData(ClipboardData(text: controller.text));
+                  Clipboard.setData(ClipboardData(text: controller!.text ?? ""));
                   showDialog(
                     context: context,
                     barrierDismissible: false,
@@ -43,7 +56,7 @@ class CustomTestField extends StatelessWidget {
                   );
                 },
             ),
-            visible: showIcon,),
+            visible: showIcon!,),
           filled: true,
           fillColor: ColorApp.colorBg,
           enabledBorder: OutlineInputBorder(
@@ -51,6 +64,10 @@ class CustomTestField extends StatelessWidget {
               borderSide: BorderSide(color: ColorApp.primaryDarkColor,width: 1.5),
           ),
           focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(color: ColorApp.primaryDarkColor,width: 1.5),
+          ),
+          border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
             borderSide: BorderSide(color: ColorApp.primaryDarkColor,width: 1.5),
           ),
