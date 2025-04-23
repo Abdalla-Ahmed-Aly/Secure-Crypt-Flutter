@@ -74,7 +74,7 @@ class _CustomContainerState extends State<CustomContainer> {
             child: Row(
               children: [
                 Text(
-                  "Try",
+                  "Try Now",
                   style: TextStyle(
                     fontWeight: FontWeight.w400,
                     fontSize: 20,

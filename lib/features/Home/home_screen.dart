@@ -14,8 +14,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  // متغير لرفع الـ state
   var navigateTabProvider;
-  List<Widget> pageTab = [HomeTab(), Sha1Tab(), RsaTab(), CtrTab()];
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return SafeArea(
       bottom: false,
       child: Scaffold(
+        // استخدام IndexedStack لعرض التابات بناءً على currentIndex
         body: Padding(
           padding: EdgeInsets.only(
             left: width * 0.05,
@@ -34,13 +35,22 @@ class _HomeScreenState extends State<HomeScreen> {
             top: height * 0.02,
             bottom: height * 0.01,
           ),
-          child: pageTab[navigateTabProvider.currentIndex],
+          child: IndexedStack(
+            index: navigateTabProvider.currentIndex, 
+            children: [
+              HomeTab(),
+              Sha1Tab(),
+              RsaTab(),
+              CtrTab(),
+            ],
+          ),
         ),
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: navigateTabProvider.currentIndex,
           onTap: (index) {
+            if (index == navigateTabProvider.currentIndex) return;
             navigateTabProvider.currentIndex = index;
-            setState(() {});
+            setState(() {}); 
           },
           type: BottomNavigationBarType.fixed,
           backgroundColor: ColorApp.primaryColor,
@@ -60,33 +70,32 @@ class _HomeScreenState extends State<HomeScreen> {
   // تخصيص عناصر شريط التنقل
   BottomNavigationBarItem customItemNavigateBar(String text, int index) {
     return BottomNavigationBarItem(
-      icon:
-          navigateTabProvider.currentIndex == index
-              ? Column(
-                children: [
-                  Text(
-                    text,
-                    style: TextStyle(
-                      color: ColorApp.primaryDarkColor,
-                      fontWeight: FontWeight.w400,
-                      fontSize: 17,
-                    ),
-                  ),
-                  Container(
-                    width: 50,
-                    height: 1,
+      icon: navigateTabProvider.currentIndex == index
+          ? Column(
+              children: [
+                Text(
+                  text,
+                  style: TextStyle(
                     color: ColorApp.primaryDarkColor,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 17,
                   ),
-                ],
-              )
-              : Text(
-                text,
-                style: TextStyle(
-                  color: ColorApp.blackColor,
-                  fontWeight: FontWeight.w400,
-                  fontSize: 15,
                 ),
+                Container(
+                  width: 50,
+                  height: 1,
+                  color: ColorApp.primaryDarkColor,
+                ),
+              ],
+            )
+          : Text(
+              text,
+              style: TextStyle(
+                color: ColorApp.blackColor,
+                fontWeight: FontWeight.w400,
+                fontSize: 15,
               ),
+            ),
       label: "",
     );
   }
