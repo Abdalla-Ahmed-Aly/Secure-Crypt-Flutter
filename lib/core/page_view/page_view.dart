@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:secure_crypt/core/page_view/PageIndicator.dart';
 import 'package:secure_crypt/core/page_view/page_view_class.dart';
@@ -18,51 +17,50 @@ class _MyPageViewState extends State<MyPageView> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+    // Initialize the PageController to manage the PageView
     _pageViewController = PageController();
   }
 
   @override
   void dispose() {
-    super.dispose();
+    // Dispose the controller when the widget is disposed to free resources
     _pageViewController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
-      backgroundColor: Color(0xffF0ECE4),
+      backgroundColor: const Color(0xffF0ECE4), // Background color of the screen
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Stack(
           children: <Widget>[
-            
+            // PageView widget for swiping through pages
             PageView(
               controller: _pageViewController,
-              onPageChanged: _handlePageViewChanged,
+              onPageChanged: _handlePageViewChanged, // Update page index on change
               children: <Widget>[
                 PageViewDetails(PageViewClass(
-                  image: 'onbordingHeader',
-                  text1: 'Secure Hash Algorithm ',
+                  image: 'splash',
+                  text1: 'Secure Hash Algorithm',
                   text2:
                       "Converts data into a unique code to check for changes.",
                 )),
                 PageViewDetails(PageViewClass(
-                  image: 'onbordingHeader',
+                  image: 'splash',
                   text1: 'RSA Algorithm',
                   text2:
                       'Secures data using a public and private key pair.',
                 )),
                 PageViewDetails(PageViewClass(
-                    image: 'onbordingHeader',
-                    text1: 'CTR Mode',
-                    text2:
-                        'Encrypts data in blocks using a fast counter system.')),
-               
-               
+                  image: 'splash',
+                  text1: 'CTR Mode',
+                  text2: 'Encrypts data in blocks using a fast counter system.',
+                )),
               ],
             ),
+            // Page indicator at the bottom of the page
             Align(
               alignment: Alignment.bottomCenter,
               child: PageIndicator(
@@ -77,38 +75,14 @@ class _MyPageViewState extends State<MyPageView> with TickerProviderStateMixin {
     );
   }
 
-  Widget _buildPage(BuildContext context, String imagePath, String text) {
-    TextTheme textTheme = Theme.of(context).textTheme;
-    return Container(
-      padding: EdgeInsets.only(top: 79),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset(
-            imagePath,
-            height: MediaQuery.sizeOf(context).height * 0.39,
-          ),
-          SizedBox(
-            height: 100,
-          ),
-          Text(
-            text,
-            style: textTheme.headlineSmall?.copyWith(
-              fontWeight: FontWeight.w700,
-              color: Color(0xff9B745B),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
+  // Handle page changes in the PageView
   void _handlePageViewChanged(int currentPageIndex) {
     setState(() {
       _currentPageIndex = currentPageIndex;
     });
   }
 
+  // Update the page index when the user taps on the page indicator
   void _updateCurrentPageIndex(int index) {
     _pageViewController.animateToPage(
       index,

@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:secure_crypt/core/tabs/RSA/custom_rsa_test_field.dart';
 import 'package:secure_crypt/utils/color_app.dart';
@@ -14,6 +12,7 @@ class CustomOutputCtrContainer extends StatelessWidget {
   TextEditingController? ciphertext;
   TextEditingController? secretKey;
   TextEditingController? decryptedText;
+
   CustomOutputCtrContainer({
     required this.ciphertext,
     required this.decryptedText,
@@ -27,16 +26,12 @@ class CustomOutputCtrContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
-
     return Container(
-      width: width,
-      height: height * 0.78,
       padding: EdgeInsets.only(
-        left: width * 0.05,
-        right: width * 0.05,
-        top: height * 0.02,
+        left: 9,
+        right: 9,
+        top: 10,
+        bottom: 15,
       ),
       decoration: BoxDecoration(
         color: ColorApp.primaryColor,
@@ -61,8 +56,7 @@ class CustomOutputCtrContainer extends StatelessWidget {
               color: Colors.black45,
             ),
           ),
-
-          SizedBox(height: height * 0.01),
+          SizedBox(height: 0.01),
           Text(
             inputTypeText,
             style: TextStyle(
@@ -78,8 +72,7 @@ class CustomOutputCtrContainer extends StatelessWidget {
             false,
             ciphertext,
           ),
-
-          SizedBox(height: height * 0.005),
+          SizedBox(height: 0.005),
           Text(
             "Secret Key",
             style: TextStyle(
@@ -89,8 +82,7 @@ class CustomOutputCtrContainer extends StatelessWidget {
             ),
           ),
           CustomRsaField(1, 0.06, "Enter Secret Key", true, secretKey),
-
-          SizedBox(height: height * 0.02),
+          SizedBox(height: 0.02),
           Text(
             "Decrypted Output",
             style: TextStyle(
@@ -100,11 +92,24 @@ class CustomOutputCtrContainer extends StatelessWidget {
             ),
           ),
           CustomRsaField(4, 0.16, "Decrypted Output", false, decryptedText),
-
-          SizedBox(height: height * 0.02),
+          SizedBox(height: 10),
           Center(
             child: ElevatedButton(
-              onPressed: Encrypt,
+              onPressed: () {
+                // Validation to check if ciphertext or secretKey are empty
+                if (ciphertext?.text.isEmpty == true
+                    ) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text("Please fill in all fields."),
+                      backgroundColor: Colors.red.shade400,
+                    ),
+                  );
+                  return;
+                }
+                // Call Encrypt function if fields are not empty
+                Encrypt?.call();
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: ColorApp.primarySemiDarkColor,
                 padding: EdgeInsets.symmetric(vertical: 5, horizontal: 109),

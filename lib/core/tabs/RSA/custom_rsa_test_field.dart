@@ -8,6 +8,7 @@ class CustomRsaField extends StatelessWidget {
   bool showIcon;
   double? _height;
   String? _hintText;
+
   CustomRsaField(
     this._maxLines,
     this._height,
@@ -15,17 +16,18 @@ class CustomRsaField extends StatelessWidget {
     this.showIcon,
     this.controller,
   );
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
+    
     return Container(
       width: width,
       height: _height! * height,
       child: TextFormField(
         onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
         controller: controller,
-
         maxLines: _maxLines,
         cursorColor: ColorApp.primaryDarkColor,
         decoration: InputDecoration(
@@ -33,9 +35,9 @@ class CustomRsaField extends StatelessWidget {
           hintStyle: TextStyle(color: Colors.grey),
           suffixIcon: Visibility(
             child: Container(
-              padding: EdgeInsets.all(5),
+              padding: EdgeInsets.all(5), // Adjust padding using (width)
               child: IconButton(
-                icon: Icon(Icons.copy_rounded),
+                icon: Icon(Icons.copy_rounded,color: ColorApp.primaryDarkColor,),
                 onPressed: () {
                   Clipboard.setData(ClipboardData(text: controller!.text));
                 },
@@ -46,14 +48,14 @@ class CustomRsaField extends StatelessWidget {
           filled: true,
           fillColor: ColorApp.colorBg,
           enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(10), // Adjust radius using
             borderSide: BorderSide(
               color: ColorApp.primaryDarkColor,
               width: 1.5,
             ),
           ),
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(10), // Adjust radius using
             borderSide: BorderSide(
               color: ColorApp.primaryDarkColor,
               width: 1.5,

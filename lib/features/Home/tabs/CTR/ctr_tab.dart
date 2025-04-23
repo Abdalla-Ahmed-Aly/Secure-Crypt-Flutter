@@ -19,6 +19,7 @@ class _CtrTabState extends State<CtrTab> {
   final TextEditingController decryptedText = TextEditingController();
 
   Map<String, String>? result;
+
   void handleKey() {
     setState(() {
       result = CtrAlgorithim(plaintext.text);
@@ -31,6 +32,29 @@ class _CtrTabState extends State<CtrTab> {
   }
 
   void handleDecrypt() {
+    // Validation: Ensure all fields are filled
+    if (plainDecyrpttext.text.isEmpty || secretKey.text.isEmpty || encryptedText.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Please fill in all fields."),
+          backgroundColor: Colors.red.shade400,
+        ),
+      );
+      return;
+    }
+    
+    // Decryption Logic: Only proceed if encrypted text matches the plain text input
+    if (plainDecyrpttext.text != encryptedText.text) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("The input does not match the encrypted text."),
+          backgroundColor: Colors.red.shade400,
+        ),
+      );
+      return;
+    }
+
+    // Decrypt using CTR mode
     final result = decryptCtr(
       plainDecyrpttext.text,
       secretKey.text,
@@ -52,8 +76,6 @@ class _CtrTabState extends State<CtrTab> {
 
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height;
-
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -65,14 +87,13 @@ class _CtrTabState extends State<CtrTab> {
               color: ColorApp.primaryDarkColor,
             ),
           ),
-          SizedBox(height: height * 0.02),
+          SizedBox(height: 20),
           CustomInputCtrContainer(
             GenrateKey: () {
               handleKey();
             },
             ciphertext: encryptedText,
             Encrypt: handleEncrypt,
-
             plaintext: plaintext,
             secretKey: secretKey,
             headerText: "Encrypt CTR",
@@ -81,7 +102,7 @@ class _CtrTabState extends State<CtrTab> {
             outputTypeText: "Encrypted Text",
             buttonText: "Generate",
           ),
-          SizedBox(height: height * 0.02),
+          SizedBox(height: 20),
           CustomOutputCtrContainer(
             Encrypt: handleDecrypt,
             headerText: "Decrypt",

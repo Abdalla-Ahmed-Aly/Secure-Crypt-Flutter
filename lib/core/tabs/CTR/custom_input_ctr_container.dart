@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:secure_crypt/core/tabs/CTR/custom_ctr_text_field.dart';
 import 'package:secure_crypt/core/tabs/RSA/custom_rsa_test_field.dart';
 import 'package:secure_crypt/utils/color_app.dart';
 
@@ -30,131 +29,141 @@ class CustomInputCtrContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
-
     return Container(
-      width: width,
-      height: height * 0.88,
-      padding: EdgeInsets.symmetric(
-        horizontal: width * 0.05,
-        vertical: height * 0.02,
+      padding: EdgeInsets.only(
+        left: 10,
+        right: 10,
+        top: 10,
+        bottom: 15,
       ),
       decoration: BoxDecoration(
         color: ColorApp.primaryColor,
         borderRadius: BorderRadius.circular(12),
       ),
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              headerText,
-              style: TextStyle(
-                fontWeight: FontWeight.w400,
-                fontSize: 24,
-                color: Colors.black,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            headerText,
+            style: TextStyle(
+              fontWeight: FontWeight.w400,
+              fontSize: 24,
+              color: Colors.black,
+            ),
+          ),
+          Text(
+            hintText,
+            style: TextStyle(
+              fontWeight: FontWeight.w400,
+              fontSize: 16,
+              color: Colors.black45,
+            ),
+          ),
+          SizedBox(height: 10),
+          Text(
+            inputTypeText,
+            style: TextStyle(
+              fontWeight: FontWeight.w400,
+              fontSize: 20,
+              color: Colors.black,
+            ),
+          ),
+          SizedBox(height: 10),
+          CustomRsaField(5, 0.2, "Enter text to Hash", false, plaintext),
+          SizedBox(height: 10),
+          Text(
+            "Secret Key",
+            style: TextStyle(
+              fontWeight: FontWeight.w400,
+              fontSize: 20,
+              color: Colors.black,
+            ),
+          ),
+          CustomRsaField(1, 0.06, "Enter Secret Key", true, secretKey),
+          SizedBox(height: 10),
+          ElevatedButton(
+            onPressed: () {
+              // Validation to check if plaintext or secretKey are empty
+              if (plaintext.text.isEmpty ) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text("Please fill in all fields."),
+                    backgroundColor: Colors.red.shade400,
+                  ),
+                );
+                return;
+              }
+              // Call GenrateKey if fields are not empty
+              GenrateKey();
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: ColorApp.primarySemiDarkColor,
+              padding: EdgeInsets.symmetric(vertical: 5),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
               ),
             ),
-            Text(
-              hintText,
-              style: TextStyle(
-                fontWeight: FontWeight.w400,
-                fontSize: 16,
-                color: Colors.black45,
-              ),
-            ),
-            SizedBox(height: height * 0.02),
-
-            Text(
-              inputTypeText,
-              style: TextStyle(
-                fontWeight: FontWeight.w400,
-                fontSize: 20,
-                color: Colors.black,
-              ),
-            ),
-            SizedBox(height: height * 0.005),
-            CustomCtrField(5, 0.2, "Enter text to Hash", false, plaintext),
-
-            SizedBox(height: height * 0.01),
-            Text(
-              "Secret Key",
-              style: TextStyle(
-                fontWeight: FontWeight.w400,
-                fontSize: 20,
-                color: Colors.black,
-              ),
-            ),
-            CustomRsaField(1, 0.06, "Enter Secret Key", true, secretKey),
-
-            SizedBox(height: height * 0.02),
-            ElevatedButton(
-              onPressed: GenrateKey,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: ColorApp.primarySemiDarkColor,
-                padding: EdgeInsets.symmetric(vertical: 5),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-              child: SizedBox(
-                width: double.infinity,
-                child: Center(
-                  child: Text(
-                    buttonText,
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: ColorApp.primaryDarkColor,
-                    ),
+            child: SizedBox(
+              width: double.infinity,
+              child: Center(
+                child: Text(
+                  buttonText,
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: ColorApp.primaryDarkColor,
                   ),
                 ),
               ),
             ),
-
-            SizedBox(height: height * 0.02),
-            Text(
-              "Encrypt Output",
-              style: TextStyle(
-                fontWeight: FontWeight.w400,
-                fontSize: 20,
-                color: Colors.black,
+          ),
+          SizedBox(height: 10),
+          Text(
+            "Encrypt Output",
+            style: TextStyle(
+              fontWeight: FontWeight.w400,
+              fontSize: 20,
+              color: Colors.black,
+            ),
+          ),
+          SizedBox(height: 10),
+          CustomRsaField(4, 0.16, "Encrypt will appear here", true, ciphertext),
+          SizedBox(height: 10),
+          ElevatedButton(
+            onPressed: () {
+              // Validation to check if plaintext or secretKey are empty before encryption
+              if (plaintext.text.isEmpty || secretKey.text.isEmpty) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text("Please fill in all fields."),
+                    backgroundColor: Colors.red.shade400,
+                  ),
+                );
+                return;
+              }
+              // Call Encrypt function if fields are not empty
+              Encrypt();
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: ColorApp.primarySemiDarkColor,
+              padding: EdgeInsets.symmetric(vertical: 5),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
               ),
             ),
-            SizedBox(height: height * 0.005),
-            CustomRsaField(
-              4,
-              0.16,
-              "Encrypt will appear here",
-              true,
-              ciphertext,
-            ),
-
-            SizedBox(height: height * 0.02),
-            ElevatedButton(
-              onPressed: Encrypt,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: ColorApp.primarySemiDarkColor,
-                padding: EdgeInsets.symmetric(vertical: 5),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-              child: SizedBox(
-                width: double.infinity,
-                child: Center(
-                  child: Text(
-                    "Encrypt",
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: ColorApp.primaryDarkColor,
-                    ),
+            child: SizedBox(
+              width: double.infinity,
+              child: Center(
+                child: Text(
+                  "Encrypt",
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: ColorApp.primaryDarkColor,
                   ),
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

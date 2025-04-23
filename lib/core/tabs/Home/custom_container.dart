@@ -1,27 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:secure_crypt/utils/color_app.dart';
 
-class CustomContainer extends StatelessWidget {
+class CustomContainer extends StatefulWidget {
+  final String headText;
+  final String topicText;
+  final Function callFunction;
+  final int index;
 
-  late String headText;
-  late String topicText;
-  late Function callFunction;
-  late int index;
-  CustomContainer(this.headText,this.topicText,this.index,this.callFunction);
+  CustomContainer(this.headText, this.topicText, this.index, this.callFunction);
+
+  @override
+  State<CustomContainer> createState() => _CustomContainerState();
+}
+
+class _CustomContainerState extends State<CustomContainer> {
+  bool _isArrowMoved = false;
+
+  void _triggerFunction() {
+    setState(() {
+      _isArrowMoved = true;
+    });
+    Future.delayed(Duration(milliseconds: 300), () {
+      widget.callFunction(widget.index);
+      setState(() {
+        _isArrowMoved = false;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width; ///    412
-    final height = MediaQuery.of(context).size.height; ///  917
+
     return Container(
-      width: width ,
-      height: height * 0.32,
-      margin: EdgeInsets.all(height * 0.008),
-      padding: EdgeInsets.only(
-          left: width * 0.05,
-          right: width * 0.05,
-          top: height * 0.02
-      ),
+      width :double.infinity ,
+      // height: height * 0.2,
+      // height: 300,
+      margin: EdgeInsets.all(3),
+      padding: EdgeInsets.only(left: 9,right: 9,top: 9,bottom: 9),
       decoration: BoxDecoration(
         color: ColorApp.primaryColor,
         borderRadius: BorderRadius.circular(15),
@@ -30,38 +45,59 @@ class CustomContainer extends StatelessWidget {
             color: Colors.black26,
             spreadRadius: 2,
             blurRadius: 6,
-            offset: Offset(0, 3), // horizontal & vertical shadow position
+            offset: Offset(0, 3),
           ),
         ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(headText,textAlign: TextAlign.center,style: TextStyle(
-            fontWeight: FontWeight.w400,
-            fontSize: 24,
-            color: ColorApp.primaryDarkColor
-          ),),
-          SizedBox(height: height * 0.02,),
-          Text(topicText),
-          SizedBox(height: height * 0.01,),
+          Text(
+            widget.headText,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontWeight: FontWeight.w400,
+              fontSize: 24,
+              color: ColorApp.primaryDarkColor,
+            ),
+          ),
+          SizedBox(height:  10),
+          Text(
+            // maxLines: 7,
+            // overflow: TextOverflow.ellipsis,
+            widget.topicText,
+            style: TextStyle(fontSize: 16, color: Colors.black),
+          ),
+          SizedBox(height: 10),
           InkWell(
-            onTap: (){
-              callFunction(index);
-            },
+            onTap: _triggerFunction,
             child: Row(
               children: [
-                Text("Show More",style: TextStyle(
+                Text(
+                  "Try",
+                  style: TextStyle(
                     fontWeight: FontWeight.w400,
                     fontSize: 20,
-                    color: ColorApp.primaryDarkColor
-                ),),SizedBox(width: width * 0.001,),
-                Icon(Icons.arrow_forward_rounded,size: 20,color: ColorApp.primaryDarkColor,)
+                    color: ColorApp.primaryDarkColor,
+                  ),
+                ),
+
+                SizedBox(width: 7),
+                AnimatedSlide(
+                  offset: _isArrowMoved ? Offset(0.3, 0) : Offset.zero,
+                  duration: Duration(milliseconds: 300),
+                  child: Icon(
+                    Icons.arrow_forward_rounded,
+                    size: 23,
+                    color: ColorApp.primaryDarkColor,
+                  ),
+                ),
               ],
             ),
-          )
+          ),
         ],
       ),
+    
     );
   }
 }

@@ -2,44 +2,52 @@ import 'package:flutter/material.dart';
 import 'package:secure_crypt/utils/color_app.dart';
 
 class CustomCtrField extends StatelessWidget {
-  int? _maxLines;
-  bool showIcon;
-  double? _height;
-  String? _hintText;
-  TextEditingController? controller;
-  CustomCtrField(this._maxLines, this._height, this._hintText, this.showIcon,this.controller);
+  final int? maxLines;
+  final bool showIcon;
+  final double? height;
+  final String? hintText;
+  final TextEditingController? controller;
+
+  CustomCtrField({
+    this.maxLines = 1,
+    this.height,
+    this.hintText,
+    this.showIcon = false,
+    this.controller,
+  });
+
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
     return Container(
-      width: width,
-      height: _height! * height,
+      width: double.infinity,
+      height: height != null ? height! : 60,
       child: TextFormField(
         controller: controller,
-        maxLines: _maxLines,
+        maxLines: maxLines,
         cursorColor: ColorApp.primaryDarkColor,
+        style: TextStyle(fontSize: 14,),
         decoration: InputDecoration(
-          hintText: _hintText,
-          hintStyle: TextStyle(color: Colors.grey),
-          suffixIcon: Visibility(
-            child: Container(
-              padding: EdgeInsets.all(5),
-              child: Image.asset("assets/images/copy.png"),
-            ),
-            visible: showIcon,
-          ),
+          hintText: hintText,
+          hintStyle: TextStyle(color: Colors.grey, fontSize: 13),
+          suffixIcon:
+              showIcon
+                  ? Padding(
+                    padding: EdgeInsets.all(8),
+                    child: Image.asset("assets/images/copy.png", width: 18),
+                  )
+                  : null,
           filled: true,
           fillColor: ColorApp.colorBg,
+          contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
           enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(8),
             borderSide: BorderSide(
               color: ColorApp.primaryDarkColor,
-              width: 1.5,
+              width: 1.2,
             ),
           ),
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(8),
             borderSide: BorderSide(
               color: ColorApp.primaryDarkColor,
               width: 1.5,

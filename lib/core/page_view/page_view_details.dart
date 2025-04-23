@@ -8,17 +8,19 @@ class PageViewDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return
-    Padding(
+    return Padding(
       padding: EdgeInsets.only(top: 100),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SizedBox(height: 20),
-          Image.asset(
-            'assets/images/${pageViewclass.image}.png',
-            height: MediaQuery.of(context).size.height * 0.3,
-            fit: BoxFit.contain,
+          Hero(
+            tag: 'image-${pageViewclass.image}', 
+            child: Image.asset(
+              'assets/images/${pageViewclass.image}.png',
+              height: MediaQuery.of(context).size.height * 0.3,
+              fit: BoxFit.contain,
+            ),
           ),
           SizedBox(height: 80),
           Text(

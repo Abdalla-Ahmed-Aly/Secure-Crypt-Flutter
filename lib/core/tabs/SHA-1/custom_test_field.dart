@@ -10,8 +10,6 @@ class CustomTestField extends StatelessWidget {
   final bool? enabled;
   final TextEditingController? controller;
 
-  // CustomTestField(this._maxLines, this._height, this._hintText, this.showIcon, {this.controller, this.enabled});
-
   CustomTestField.req({
     required int maxLines,
     required bool showIcon,
@@ -35,22 +33,24 @@ class CustomTestField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
+    // استخدام ScreenUtil بدلاً من MediaQuery
+    final width = MediaQuery.sizeOf(context).width; // عرض الشاشة
+    final height = MediaQuery.sizeOf(context).height; // ارتفاع الشاشة
+    
     return Container(
-      width: width,
-      height: _height! * height,
+      width: width,  // استخدام ScreenUtil
+      height: _height! * height, // استخدام ScreenUtil
       child: TextFormField(
         controller: controller,
         maxLines: _maxLines,
         enabled: enabled ?? true,
-        textAlign: TextAlign.start, 
+        textAlign: TextAlign.start,
         cursorColor: ColorApp.primaryDarkColor,
         style: TextStyle(
-          fontSize: 16,
-          color: ColorApp.primaryDarkColor,
+          fontSize: 16,  // استخدم sp بدلاً من px للحصول على حجم نص مرن
+          color: ColorApp.blackColor,
           fontWeight: FontWeight.w400,
-          letterSpacing: width * 0.001,
+          letterSpacing: width * 0.001, // يمكن أيضًا استخدام ScreenUtil هنا
         ),
         decoration: InputDecoration(
           hintText: _hintText,
@@ -76,10 +76,10 @@ class CustomTestField extends StatelessWidget {
           filled: true,
           fillColor: ColorApp.colorBg,
           enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(10),  // استخدام r للحصول على زاوية مرنة
             borderSide: BorderSide(
               color: ColorApp.primaryDarkColor,
-              width: 1.5,
+              width: 1.5,  // استخدام w للحصول على سمك مرن
             ),
           ),
           focusedBorder: OutlineInputBorder(

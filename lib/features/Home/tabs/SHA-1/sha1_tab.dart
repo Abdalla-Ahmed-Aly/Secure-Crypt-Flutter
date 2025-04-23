@@ -7,11 +7,13 @@ class Sha1Tab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.sizeOf(context).width; // العرض
+    final height = MediaQuery.sizeOf(context).height; // الارتفاع
+
     return SingleChildScrollView(
       child: Column(
         children: [
+          // العنوان
           Text(
             "SHA-1 Hash",
             style: TextStyle(
@@ -20,15 +22,8 @@ class Sha1Tab extends StatelessWidget {
               color: ColorApp.primaryDarkColor,
             ),
           ),
-          SizedBox(height: height * 0.02),
-
-          // CustomAlgoContainer(
-          //     "Verify Hash",
-          //     "Verify if a hash matches the input text",
-          //     "SHA-1 Hash to Verify",
-          //     "Verify Hash",
-          //     0.55
-          // ),
+          SizedBox(height: height * 0.02), // مسافة باستخدام ScreenUtil
+          // حاوية توليد الهاش
           CustomAlgoContainer.req(
             headerText: "Generate Hash",
             hintText: "Create SHA-1 hash from input text",
@@ -38,8 +33,8 @@ class Sha1Tab extends StatelessWidget {
             height: 0.55,
             buttonText: "Generate Hash",
           ),
-          SizedBox(height: height * 0.02),
-
+          SizedBox(height: height * 0.02), // مسافة باستخدام ScreenUtil
+          // حاوية التحقق من الهاش
           CustomAlgoContainer.req(
             headerText: "Verify Hash",
             hintText: "Verify if a hash matches the input text",

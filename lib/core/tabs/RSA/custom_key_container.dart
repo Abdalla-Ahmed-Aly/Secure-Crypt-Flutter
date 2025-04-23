@@ -7,47 +7,73 @@ class CustomKeyContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
+    // final width = MediaQuery.of(context).size.width;
+    // final height = MediaQuery.of(context).size.height;
+
     return Container(
-      width: width,
-      height: height * .38,
-      padding: EdgeInsets.all(15),
+      // width: width,
+      // // height: height* 0.55, // Use for height
+      // height: 310,
+      padding: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 20),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
-        color: ColorApp.primaryColor
+        borderRadius: BorderRadius.circular(15), // Use for border radius
+        color: ColorApp.primaryColor,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Generate RSA keys",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 20,color: Colors.black),),
-
-          SizedBox(height: height * 0.01,),
-          Text("Public Key",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 16,color: Colors.black),),
-          SizedBox(height: height * 0.006,),
-          CustomRsaField(1, 0.06, "Public Key value", true,null),
-
-          SizedBox(height: height * 0.02,),
-          Text("Private Key",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 16,color: Colors.black),),
-          SizedBox(height: height * 0.006,),
-          CustomRsaField(1, 0.06, "Private Key value", true,null),
-
-          SizedBox(height: height * 0.02,),
+          Text(
+            "Generate RSA keys",
+            style: TextStyle(
+              fontWeight: FontWeight.w400,
+              fontSize: 20, // Use for font size
+              color: Colors.black,
+            ),
+          ),
+          SizedBox(height: 10),
+          Text(
+            "Public Key",
+            style: TextStyle(
+              fontWeight: FontWeight.w400,
+              fontSize: 16, // Use for font size
+              color: Colors.black,
+            ),
+          ),
+          SizedBox(height: 10),
+          CustomRsaField(1, 0.06, "Public Key value", true, null),
+          SizedBox(height: 10),
+          Text(
+            "Private Key",
+            style: TextStyle(
+              fontWeight: FontWeight.w400,
+              fontSize: 16, // Use for font size
+              color: Colors.black,
+            ),
+          ),
+          SizedBox(height: 10),
+          CustomRsaField(1, 0.06, "Private Key value", true, null),
+          SizedBox(height: 10),
           Center(
             child: ElevatedButton(
-                onPressed: (){
-                  // todo: here How you will generate
-                },
-                style: ElevatedButton.styleFrom(
-                  elevation: 5,
-                    backgroundColor: ColorApp.primarySemiDarkColor,
-                    padding: EdgeInsets.symmetric(vertical: 7,horizontal: 85),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12)
-                    )
+              onPressed: () {},
+              style: ElevatedButton.styleFrom(
+                elevation: 5,
+                backgroundColor: ColorApp.primarySemiDarkColor,
+                padding: EdgeInsets.symmetric(vertical: 7, horizontal: 85),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
                 ),
-                child: Text("Generate Key",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 20,color: ColorApp.primaryDarkColor),)),
-          )
+              ),
+              child: Text(
+                "Generate Key",
+                style: TextStyle(
+                  fontWeight: FontWeight.w400,
+                  fontSize: 20, // Use for font size
+                  color: ColorApp.primaryDarkColor,
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
