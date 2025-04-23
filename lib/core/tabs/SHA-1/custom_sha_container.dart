@@ -106,7 +106,7 @@ class _CustomAlgoContainerState extends State<CustomAlgoContainer> {
           CustomTestField.controller(
             hashController,
             1,
-            0.06,
+            0.07,
             widget.secTextFieldHint,
             widget.enabled == true ? false : true,true
           ),
