@@ -19,20 +19,26 @@ class _CtrTabState extends State<CtrTab> {
   final TextEditingController decryptedText = TextEditingController();
 
   Map<String, String>? result;
+  String? spaceData;
 
   void handleKey() {
     setState(() {
       result = CtrAlgorithim(plaintext.text);
       secretKey.text = result!['key']!;
+      // encryptedText.text = result!['encrypted']!;
+      spaceData = result!['spaces']!;
+      // plainDecyrpttext.text = result!['encrypted']!;
     });
   }
 
   void handleEncrypt() {
-    encryptedText.text = result!['encrypted']!;
+    if (result != null) {
+      encryptedText.text = result!['encrypted']!;
+      spaceData = result!['spaces'];
+    }
   }
 
   void handleDecrypt() {
-    // Validation: Ensure all fields are filled
     if (plainDecyrpttext.text.isEmpty || secretKey.text.isEmpty || encryptedText.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -42,8 +48,7 @@ class _CtrTabState extends State<CtrTab> {
       );
       return;
     }
-    
-    // Decryption Logic: Only proceed if encrypted text matches the plain text input
+
     if (plainDecyrpttext.text != encryptedText.text) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -54,14 +59,15 @@ class _CtrTabState extends State<CtrTab> {
       return;
     }
 
-    // Decrypt using CTR mode
-    final result = decryptCtr(
+    final resultText = decryptCtr(
       plainDecyrpttext.text,
       secretKey.text,
       '1234567890abcdef',
+      spaceData ?? '',
     );
+
     setState(() {
-      decryptedText.text = result;
+      decryptedText.text = resultText;
     });
   }
 
@@ -89,9 +95,7 @@ class _CtrTabState extends State<CtrTab> {
           ),
           SizedBox(height: 20),
           CustomInputCtrContainer(
-            GenrateKey: () {
-              handleKey();
-            },
+            GenrateKey: handleKey,
             ciphertext: encryptedText,
             Encrypt: handleEncrypt,
             plaintext: plaintext,
