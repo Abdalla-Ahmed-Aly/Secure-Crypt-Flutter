@@ -24,7 +24,7 @@ String generateKeyWithLCG({int length = 16}) {
 // تنفيذ تشفير CTR
 Map<String, String> CtrAlgorithim(String plainText) {
   final spaceIndices = <int>[]; // لتخزين أماكن الفراغات
-  final buffer = StringBuffer();
+  final buffer = StringBuffer(); //علشان نحط فيه النص من غير فراغات.
 
   // إزالة الفراغات من النص وتخزين مواقعها
   for (int i = 0; i < plainText.length; i++) {
@@ -39,22 +39,31 @@ Map<String, String> CtrAlgorithim(String plainText) {
   final keyString = generateKeyWithLCG(length: 16); // توليد المفتاح
   final key = encrypt.Key.fromUtf8(keyString); // تحويل المفتاح لـ Key
   final ivString = '1234567890abcdef'; // IV ثابت
-  final ivBytes = utf8.encode(ivString);
+  final ivBytes = utf8.encode(
+    ivString,
+  ); //الـ IV ثابت هنا (مش متغير)، وتحويله لـ bytes.
+
   final blockSize = 16;
   final data = utf8.encode(text); // تحويل النص لبنظام UTF8
   List<int> encryptedResult = [];
 
-  // التشفير باستخدام CTR
+  // التشفير باستخدام CTR| التشفير بلوك بلوك:
+
   for (int i = 0; i < data.length; i += blockSize) {
-    List<int> block = data.sublist(i, min(i + blockSize, data.length)); // تقسيم البيانات إلى بلوكات
+    List<int> block = data.sublist(
+      i,
+      min(i + blockSize, data.length),
+    ); // تقسيم البيانات إلى بلوكات
     List<int> counter = List.from(ivBytes); // عداد (counter)
     int blockIndex = i ~/ blockSize;
-    counter[counter.length - 1] ^= blockIndex; // تغيير آخر بايت في الـ IV باستخدام XOR
+    counter[counter.length - 1] ^=
+        blockIndex; // تغيير آخر بايت في الـ IV باستخدام XOR
 
     final aesEcb = encrypt.Encrypter(
       encrypt.AES(key, mode: encrypt.AESMode.ecb), // استخدام ECB لتشفير العداد
     );
-    final counterEncrypted = aesEcb.encryptBytes(counter, iv: encrypt.IV.fromLength(0)).bytes;
+    final counterEncrypted =
+        aesEcb.encryptBytes(counter, iv: encrypt.IV.fromLength(0)).bytes;
 
     // تنفيذ XOR بين العداد المشفر والبلوك الأصلي
     List<int> xorResult = List.generate(
@@ -65,26 +74,34 @@ Map<String, String> CtrAlgorithim(String plainText) {
   }
 
   final encryptedBase64 = base64.encode(encryptedResult); // تحويل إلى Base64
-  final spaces = spaceIndices.join(','); // تحويل مواقع الفراغات لنص مفصول بفواصل
+  final spaces = spaceIndices.join(
+    ',',
+  ); // تحويل مواقع الفراغات لنص مفصول بفواصل
 
-  return {
-    'key': keyString,
-    'encrypted': encryptedBase64,
-    'spaces': spaces,
-  };
+  return {'key': keyString, 'encrypted': encryptedBase64, 'spaces': spaces};
 }
 
 // فك تشفير CTR
-String decryptCtr(String base64Cipher, String keyString, String ivString, String spaces) {
+String decryptCtr(
+  String base64Cipher,
+  String keyString,
+  String ivString,
+  String spaces,
+) {
   final key = encrypt.Key.fromUtf8(keyString); // المفتاح
   final ivBytes = utf8.encode(ivString); // IV
-  final encryptedBytes = base64.decode(base64Cipher); // تحويل من Base64 إلى بايتات
+  final encryptedBytes = base64.decode(
+    base64Cipher,
+  ); // تحويل من Base64 إلى بايتات
   final blockSize = 16;
   List<int> decryptedResult = [];
 
   // فك التشفير باستخدام نفس خطوات التشفير بالضبط
   for (int i = 0; i < encryptedBytes.length; i += blockSize) {
-    List<int> block = encryptedBytes.sublist(i, i + min(blockSize, encryptedBytes.length - i));
+    List<int> block = encryptedBytes.sublist(
+      i,
+      i + min(blockSize, encryptedBytes.length - i),
+    );
     List<int> counter = List.from(ivBytes);
     int blockIndex = i ~/ blockSize;
     counter[counter.length - 1] ^= blockIndex;
@@ -92,7 +109,8 @@ String decryptCtr(String base64Cipher, String keyString, String ivString, String
     final aesEcb = encrypt.Encrypter(
       encrypt.AES(key, mode: encrypt.AESMode.ecb),
     );
-    final counterEncrypted = aesEcb.encryptBytes(counter, iv: encrypt.IV.fromLength(0)).bytes;
+    final counterEncrypted =
+        aesEcb.encryptBytes(counter, iv: encrypt.IV.fromLength(0)).bytes;
 
     // XOR بين البيانات المشفرة والعداد المشفر لفك التشفير
     List<int> xorResult = List.generate(
@@ -105,7 +123,10 @@ String decryptCtr(String base64Cipher, String keyString, String ivString, String
   String decryptedText = utf8.decode(decryptedResult); // تحويل البايتات إلى نص
 
   // استرجاع الفراغات إلى مواقعها الأصلية
-  final spaceIndices = spaces.split(',').where((s) => s.isNotEmpty).map(int.parse);
+  final spaceIndices = spaces
+      .split(',')
+      .where((s) => s.isNotEmpty)
+      .map(int.parse);
 
   final buffer = StringBuffer();
   int textIndex = 0;
